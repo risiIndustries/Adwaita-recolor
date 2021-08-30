@@ -1,0 +1,143 @@
+#!/bin/bash
+# Adwaita Colorizer, by Dominic Hayes, Modified by PizzaLovingNerd
+
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]
+then
+    echo 'Please run this script with the theme name, gtk version, gtk url, and hex color'
+    echo 'ex: "adwaita-recolor Adwaita-remix 3 http://download.gnome.org/sources/gtk+/3.24/gtk+-%{version}.tar.xz 26A269"'
+    exit 1
+else
+    gtkthemename=$1
+    gtkver=$2
+    gtkgit=$3
+    gtkbasename=$(basename $3)
+    color=$4
+fi
+
+path=$(pwd)
+
+if [ "$gtkver" != "3" ] && [ "$gtkver" != "4" ]; then
+    gtkver=3
+fi
+
+if [ -d gtk ]; then
+    rm -rf gtk
+    echo "W: Existing gtk directory was delete$i."
+fi
+
+wget $gtkgit
+tar -xf $gtkbasename
+
+# if [ -z "$gtkbranch" ]; then gtkbranch="gtk-3-24"; fi
+
+# git clone https://gitlab.gnome.org/GNOME/gtk.git -b $gtkbranch --depth=1
+
+# if [ ! $? -eq 0 ]; then
+#    echo "Either this branch doesn't exist or git failed. Exiting."
+#    exit 1
+# fi
+
+if [ "$gtkver" == "3" ]; then
+gtkpathname="Adwaita"
+else
+gtkpathname="Default"
+fi
+
+cd ${gtkbasename::-7}/gtk/theme/$gtkpathname
+
+# xdg-open _colors.scss >/dev/null 2>&1 &
+# read -p 'The colors file should now open. Make any colour changes you want and press ENTER to continue.'
+sed -i "s/3584e4/$color/g" _colors.scss
+sed -i "s/2265b5/$color/g" _colors.scss
+
+
+# gedit assets.svg >/dev/null 2>&1 &
+# read -p 'The assets.svg file should now open. Make sure, for consistency, that the colour is changed here too. Press ENTER to continue.'
+sed -i "s/3584e4/$color/g" assets.svg
+sed -i "s/2265b5/$color/g" assets.svg
+
+if [ -f /usr/bin/inkscape ]; then
+    sed -i 's%flatpak run org.inkscape.Inkscape%/usr/bin/inkscape%g' render-assets.sh
+fi
+
+mv assets assets-old
+mkdir assets
+bash ./render-assets.sh
+
+if [ ! $? -eq 0 ]; then
+    echo "Rendering assets failed. This likely means you don't have optipng or inkscape installed. Deleting gtk folder and aborting."
+    cd ../../../..
+    rm -rf gtk
+    exit 1
+fi
+
+for file in assets-old/*; do
+    if [ ! -f "$(echo $file | sed 's%assets-old%assets%g')" ]; then
+        cp -f "$file" "$(echo $file | sed 's%assets-old%assets%g')"
+    fi
+done
+rm -rf assets-old
+
+echo "Creating your recoloured Adwaita..."
+
+if [ "$gtkver" = 3 ]; then
+    sassc $SASSC_OPT gtk-contained.scss gtk-contained.css
+else
+    sassc $SASSC_OPT $gtkpathname-light.scss gtk.css
+fi
+if [ ! $? -eq 0 ]; then
+    echo "Rendering the theme failed. This likely means you don't have sassc installed. Deleting gtk folder and aborting."
+    cd ../../../..
+    rm -rf gtk
+    exit 1
+fi
+
+if [ "$gtkver" = 3 ]; then
+    sassc $SASSC_OPT gtk-contained-dark.scss gtk-contained-dark.css
+else
+    sassc $SASSC_OPT $gtkpathname-dark.scss gtk-dark.css
+fi
+if [ ! $? -eq 0 ]; then
+    echo "Rendering the theme failed. This likely means you don't have sassc installed. Deleting gtk folder and aborting."
+    cd ../../../..
+    rm -rf gtk
+    exit 1
+fi
+
+if [ "$gtkver" = 3 ]; then
+    echo "Making final changes to css files..."
+    echo '@import url("gtk-contained.css");' > gtk.css #if this isn't done, the system just loads fallback Adwaita when you apply your theme
+    echo '@import url("gtk-contained-dark.css");' > gtk-dark.css
+fi
+
+clear
+echo "Theme is now being constructed..."
+
+mkdir -p $path/$gtkthemename/gtk-$gtkver.0
+mkdir -p $path/$gtkthemename-dark/gtk-$gtkver.0
+
+if [ "$gtkver" = 3 ]; then
+    cp -Rf assets $path/$gtkthemename/gtk-$gtkver.0/assets
+    cp -f gtk.css $path/$gtkthemename/gtk-$gtkver.0/gtk.css
+    cp -f gtk-contained.css $path/$gtkthemename/gtk-$gtkver.0/gtk-contained.css
+    cp -f gtk-dark.css $path/$gtkthemename/gtk-$gtkver.0/gtk-dark.css
+    cp -f gtk-contained-dark.css $path/$gtkthemename/gtk-$gtkver.0/gtk-contained-dark.css
+
+    cp -Rf assets $path/$gtkthemename-dark/gtk-$gtkver.0/assets
+    cp -f gtk.css $path/$gtkthemename-dark/gtk-$gtkver.0/gtk.css
+    cp -f gtk-contained-dark.css $path/$gtkthemename-dark/gtk-$gtkver.0/gtk-contained.css
+    cp -f gtk-dark.css $path/$gtkthemename-dark/gtk-$gtkver.0/gtk-dark.css
+    cp -f gtk-contained-dark.css $path/$gtkthemename-dark/gtk-$gtkver.0/gtk-contained-dark.css
+else
+    cp -Rf assets $path/$gtkthemename/gtk-$gtkver.0/assets
+    cp -f $gtkpathname-light.scss $path/$gtkthemename/gtk-$gtkver.0/gtk.css
+    cp -f $gtkpathname-dark.scss $path/$gtkthemename/gtk-$gtkver.0/gtk-dark.css
+
+    cp -Rf assets $path/$gtkthemename-dark/gtk-$gtkver.0/assets
+    cp -f $gtkpathname-dark.scss $path/$gtkthemename-dark/gtk-$gtkver.0/gtk.css
+    cp -f $gtkpathname-dark.scss $path/$gtkthemename-dark/gtk-$gtkver.0/gtk-dark.css
+fi
+
+
+echo "All done, check your new theme out!"
+exit 0
