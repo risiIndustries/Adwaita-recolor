@@ -4,7 +4,7 @@
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]
 then
     echo 'Please run this script with the theme name, gtk version, gtk url, and hex color'
-    echo 'ex: "adwaita-recolor Adwaita-remix 3 http://download.gnome.org/sources/gtk+/3.24/gtk+-%{version}.tar.xz 26A269"'
+    echo 'ex: "adwaita-recolor Adwaita-remix 3 http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz 26A269"'
     exit 1
 else
     gtkthemename=$1
