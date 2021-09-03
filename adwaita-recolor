@@ -1,24 +1,28 @@
 #!/bin/bash
 # Adwaita Colorizer, by Dominic Hayes, Modified by PizzaLovingNerd
 
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
 then
-    echo 'Please run this script with the theme name, gtk version, gtk url, and hex color'
-    echo 'ex: "adwaita-recolor Adwaita-remix 3 http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz 26A269"'
+    echo 'Please run this script with the theme name, gtk version, and hex color'
+    echo 'ex: "adwaita-recolor Adwaita-remix 3 26A269"'
     exit 1
 else
     gtkthemename=$1
     gtkver=$2
-    gtkgit=$3
-    gtkbasename=$(basename $3)
-    color=$4
+    gtkgit="http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz"
+    gtkbasename=$(basename $gtkgit)
+    color=$3
 fi
-
-path=$(pwd)
 
 if [ "$gtkver" != "3" ] && [ "$gtkver" != "4" ]; then
     gtkver=3
 fi
+
+if [ "$gtkver" == "3" ]; then
+    nautilusurl="https://gitlab.gnome.org/GNOME/nautilus/-/raw/gnome-40/src/resources/css/Adwaita.css"
+fi
+
+path=$(pwd)
 
 if [ -d gtk ]; then
     rm -rf gtk
@@ -43,13 +47,13 @@ else
 gtkpathname="Default"
 fi
 
+cp nautilus.css ${gtkbasename::-7}/gtk/theme/$gtkpathname
 cd ${gtkbasename::-7}/gtk/theme/$gtkpathname
 
 # xdg-open _colors.scss >/dev/null 2>&1 &
 # read -p 'The colors file should now open. Make any colour changes you want and press ENTER to continue.'
 sed -i "s/3584e4/$color/g" _colors.scss
 sed -i "s/2265b5/$color/g" _colors.scss
-
 
 # gedit assets.svg >/dev/null 2>&1 &
 # read -p 'The assets.svg file should now open. Make sure, for consistency, that the colour is changed here too. Press ENTER to continue.'
@@ -111,10 +115,16 @@ if [ "$gtkver" = 3 ]; then
 fi
 
 clear
+
 echo "Theme is now being constructed..."
 
 mkdir -p $path/$gtkthemename/gtk-$gtkver.0
 mkdir -p $path/$gtkthemename-dark/gtk-$gtkver.0
+
+echo "Applying app patches..."
+cat nautilus.css >> gtk-contained.css
+cat nautilus.css >> gtk-contained-dark.css
+
 
 if [ "$gtkver" = 3 ]; then
     cp -Rf assets $path/$gtkthemename/gtk-$gtkver.0/assets
