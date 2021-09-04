@@ -10,7 +10,7 @@ Source0:        https://github.com/risiOS/Adwaita-recolor/archive/refs/heads/mai
 BuildArch:	noarch
 Requires:	gtk
 Requires:	gtk4
-BuildRequires:	scss
+BuildRequires:	sassc
 BuildRequires:	inkscape
 BuildRequires:	optipng
 
