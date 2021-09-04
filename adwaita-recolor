@@ -10,7 +10,6 @@ else
     gtkthemename=$1
     gtkver=$2
     gtkgit="http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz"
-    gtkbasename=$(basename $gtkgit)
     color=$3
 fi
 
@@ -19,14 +18,18 @@ if [ "$gtkver" != "3" ] && [ "$gtkver" != "4" ]; then
 fi
 
 if [ "$gtkver" == "3" ]; then
-    nautilusurl="https://gitlab.gnome.org/GNOME/nautilus/-/raw/gnome-40/src/resources/css/Adwaita.css"
+    gtkgit="http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz"
+fi
+if [ "$gtkver" == "4" ]; then
+    gtkgit="http://download.gnome.org/sources/gtk+/4.4/gtk+-4.4.0.tar.xz"
 fi
 
 path=$(pwd)
+gtkbasename=$(basename $gtkgit)
 
 if [ -d gtk ]; then
-    rm -rf gtk
-    echo "W: Existing gtk directory was delete$i."
+    rm -rf gtk*
+    echo "W: Existing gtk directory was deleted$i."
 fi
 
 wget $gtkgit
@@ -126,6 +129,7 @@ cat nautilus.css >> gtk-contained.css
 cat nautilus.css >> gtk-contained-dark.css
 
 
+echo "Generating theme..."
 if [ "$gtkver" = 3 ]; then
     cp -Rf assets $path/$gtkthemename/gtk-$gtkver.0/assets
     cp -f gtk.css $path/$gtkthemename/gtk-$gtkver.0/gtk.css
@@ -148,6 +152,10 @@ else
     cp -f $gtkpathname-dark.scss $path/$gtkthemename-dark/gtk-$gtkver.0/gtk-dark.css
 fi
 
+echo "Removing downloaded files..."
+cd $path
+rm $gtkbasename
+rm -rf ${gtkbasename::-7}
 
 echo "All done, check your new theme out!"
 exit 0
