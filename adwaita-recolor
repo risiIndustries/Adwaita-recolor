@@ -21,7 +21,7 @@ if [ "$gtkver" == "3" ]; then
     gtkgit="http://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz"
 fi
 if [ "$gtkver" == "4" ]; then
-    gtkgit="http://download.gnome.org/sources/gtk+/4.4/gtk+-4.4.0.tar.xz"
+    gtkgit="http://download.gnome.org/sources/gtk/4.4/gtk-4.4.0.tar.xz"
 fi
 
 path=$(pwd)
