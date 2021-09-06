@@ -5,12 +5,12 @@ Summary:        risiOS's accent colors for Adwaita
 
 License:        GPL v3
 URL:            risi.io
-Source0:        https://codeload.github.com/risiOS/Adwaita-recolor/tar.gz/main#/Adwaita-recolor-main.tar.gz
+Source0:        https://github.com/risiOS/Adwaita-recolor/archive/refs/heads/main.tar.gz#/Adwaita-recolor-main.tar.gz
 
 BuildArch:	noarch
 Requires:	gtk
 Requires:	gtk4
-BuildRequires:	sassc
+BuildRequires:	scss
 BuildRequires:	inkscape
 BuildRequires:	optipng
 
@@ -18,7 +18,7 @@ BuildRequires:	optipng
 This is a package with all of risiOS's Adwaita Varients
 
 %prep
-%autosetup -n Adwaita-recolor-main
+%autosetup -n %{gitname}-%{version}
 
 %build
 bash all-themes.sh
@@ -43,18 +43,18 @@ cp -R adwaita-red-dark %{buildroot}%{_datadir}/themes/
 %files
 # %license add-license-file-here
 # %doc add-docs-here
-%dir %{buildroot}%{_datadir}/themes/adwaita-brown
-%dir %{buildroot}%{_datadir}/themes/adwaita-green
-%dir %{buildroot}%{_datadir}/themes/adwaita-orange
-%dir %{buildroot}%{_datadir}/themes/adwaita-purple
-%dir %{buildroot}%{_datadir}/themes/adwaita-pink
-%dir %{buildroot}%{_datadir}/themes/adwaita-red
-%dir %{buildroot}%{_datadir}/themes/adwaita-brown-dark
-%dir %{buildroot}%{_datadir}/themes/adwaita-green-dark
-%dir %{buildroot}%{_datadir}/themes/adwaita-orange-dark
-%dir %{buildroot}%{_datadir}/themes/adwaita-purple-dark
-%dir %{buildroot}%{_datadir}/themes/adwaita-pink-dark
-%dir %{buildroot}%{_datadir}/themes/adwaita-red-dark
+%dir %{_datadir}/themes/adwaita-brown
+%dir %{_datadir}/themes/adwaita-green
+%dir %{_datadir}/themes/adwaita-orange
+%dir %{_datadir}/themes/adwaita-purple
+%dir %{_datadir}/themes/adwaita-pink
+%dir %{_datadir}/themes/adwaita-red
+%dir %{_datadir}/themes/adwaita-brown-dark
+%dir %{_datadir}/themes/adwaita-green-dark
+%dir %{_datadir}/themes/adwaita-orange-dark
+%dir %{_datadir}/themes/adwaita-purple-dark
+%dir %{_datadir}/themes/adwaita-pink-dark
+%dir %{_datadir}/themes/adwaita-red-dark
 	
 %changelog
 * Fri Sep 3 2021 PizzaLovingNerd
