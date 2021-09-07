@@ -13,6 +13,7 @@ Requires:	gtk4
 BuildRequires:	sassc
 BuildRequires:	inkscape
 BuildRequires:	optipng
+BuildRequires:	wget
 
 %description
 This is a package with all of risiOS's Adwaita Varients
