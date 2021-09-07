@@ -18,8 +18,6 @@ BuildRequires:	optipng
 This is a package with all of risiOS's Adwaita Varients
 
 %prep
-ls %{_sourcedir}
-
 %autosetup -n
 
 %build
