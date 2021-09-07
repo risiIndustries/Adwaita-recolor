@@ -42,18 +42,18 @@ cp -R adwaita-red-dark %{buildroot}%{_datadir}/themes/
 %files
 # %license add-license-file-here
 # %doc add-docs-here
-%dir %{_datadir}/themes/adwaita-brown
-%dir %{_datadir}/themes/adwaita-green
-%dir %{_datadir}/themes/adwaita-orange
-%dir %{_datadir}/themes/adwaita-purple
-%dir %{_datadir}/themes/adwaita-pink
-%dir %{_datadir}/themes/adwaita-red
-%dir %{_datadir}/themes/adwaita-brown-dark
-%dir %{_datadir}/themes/adwaita-green-dark
-%dir %{_datadir}/themes/adwaita-orange-dark
-%dir %{_datadir}/themes/adwaita-purple-dark
-%dir %{_datadir}/themes/adwaita-pink-dark
-%dir %{_datadir}/themes/adwaita-red-dark
+%{_datadir}/themes/adwaita-brown
+%{_datadir}/themes/adwaita-green
+%{_datadir}/themes/adwaita-orange
+%{_datadir}/themes/adwaita-purple
+%{_datadir}/themes/adwaita-pink
+%{_datadir}/themes/adwaita-red
+%{_datadir}/themes/adwaita-brown-dark
+%{_datadir}/themes/adwaita-green-dark
+%{_datadir}/themes/adwaita-orange-dark
+%{_datadir}/themes/adwaita-purple-dark
+%{_datadir}/themes/adwaita-pink-dark
+%{_datadir}/themes/adwaita-red-dark
 	
 %changelog
 * Fri Sep 3 2021 PizzaLovingNerd
