@@ -18,14 +18,12 @@ BuildRequires:	optipng
 This is a package with all of risiOS's Adwaita Varients
 
 %prep
-%autosetup -n
+%autosetup
 
 %build
 bash all-themes.sh
 
 %install
-# rm -rf $RPM_BUILD_ROOT
-
 mkdir -p %{buildroot}%{_datadir}/themes
 cp -R adwaita-brown %{buildroot}%{_datadir}/themes/
 cp -R adwaita-green %{buildroot}%{_datadir}/themes/
