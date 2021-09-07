@@ -20,7 +20,7 @@ This is a package with all of risiOS's Adwaita Varients
 %prep
 ls %{_sourcedir}
 
-%autosetup -n main
+%autosetup -n Adwaita-recolor-main
 
 %build
 bash all-themes.sh
