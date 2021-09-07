@@ -1,6 +1,6 @@
 Name:           risi-adwaita-recolor
 Version:        0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        risiOS's accent colors for Adwaita
 
 License:        GPL v3
@@ -8,7 +8,7 @@ URL:            risi.io
 Source0:        https://github.com/risiOS/Adwaita-recolor/archive/refs/heads/main.tar.gz#/Adwaita-recolor-main.tar.gz
 
 BuildArch:	noarch
-Requires:	gtk
+Requires:	gtk3
 Requires:	gtk4
 BuildRequires:	sassc
 BuildRequires:	inkscape
