@@ -1,5 +1,5 @@
 Name:           risi-adwaita-recolor
-Version:        0.1
+Version:        0.2
 Release:        3%{?dist}
 Summary:        risiOS's accent colors for Adwaita
 
