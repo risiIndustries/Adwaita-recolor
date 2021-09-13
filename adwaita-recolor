@@ -124,10 +124,19 @@ echo "Theme is now being constructed..."
 mkdir -p $path/$gtkthemename/gtk-$gtkver.0
 mkdir -p $path/$gtkthemename-dark/gtk-$gtkver.0
 
-echo "Applying app patches..."
+echo "Downloading and applying app patches..."
+wget https://gitlab.gnome.org/GNOME/nautilus/-/raw/gnome-40/src/resources/css/Adwaita.css -O nautilus.css
 cat nautilus.css >> gtk-contained.css
 cat nautilus.css >> gtk-contained-dark.css
 
+wget https://gitlab.gnome.org/GNOME/libhandy/-/raw/master/src/themes/Adwaita.css -O libhandy.css
+wget https://gitlab.gnome.org/GNOME/libhandy/-/raw/master/src/themes/Adwaita-dark.css -O libhandy-dark.css
+cat libhandy.css >> gtk-contained.css
+cat libhandy-dark.css >> gtk-contained-dark.css
+
+rm nautilus.css
+rm libhandy.css
+rm libhandy-dark.css
 
 echo "Generating theme..."
 if [ "$gtkver" = 3 ]; then
