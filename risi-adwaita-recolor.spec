@@ -1,6 +1,6 @@
 Name:           risi-adwaita-recolor
-Version:        0.2
-Release:        3%{?dist}
+Version:        0.3
+Release:        1%{?dist}
 Summary:        risiOS's accent colors for Adwaita
 
 License:        GPL v3
