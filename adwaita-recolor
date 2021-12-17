@@ -1,7 +1,7 @@
 #!/bin/bash
 # Adwaita Colorizer, by Dominic Hayes, Modified by PizzaLovingNerd
 
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
+if [ "$#" -lt 3 ]
 then
     echo 'Please run this script with the theme name, gtk version, and hex color'
     echo 'ex: "adwaita-recolor Adwaita-remix 3 26A269"'
